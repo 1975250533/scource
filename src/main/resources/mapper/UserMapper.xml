@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.mapper.UserMapper">
+
+    <select id="queryAll" resultType="String">
+       select province from  user
+    </select>
+    <select id="count" resultType="Integer">
+        select count(id) from user where province=#{province}
+    </select>
+
+    <select id="query" resultType="Integer">
+             select ifnull(b.count,0)as count
+        from (
+                 SELECT curdate() as click_date
+                 union all
+                 SELECT date_sub(curdate(), interval 1 day) as click_date
+                 union all
+                 SELECT date_sub(curdate(), interval 2 day) as click_date
+                 union all
+                 SELECT date_sub(curdate(), interval 3 day) as click_date
+                 union all
+                 SELECT date_sub(curdate(), interval 4 day) as click_date
+                 union all
+                 SELECT date_sub(curdate(), interval 5 day) as click_date
+                 union all
+                 SELECT date_sub(curdate(), interval 6 day) as click_date
+             ) a left join (
+            select createDate as datetime, count(id) as count
+            from `user`
+            group by date(createDate)
+        ) b on a.click_date = b.datetime;
+    </select>
+</mapper>
