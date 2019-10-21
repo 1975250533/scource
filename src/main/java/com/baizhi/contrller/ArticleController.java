@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,5 +31,11 @@ public class ArticleController {
     public void update(Article article) {
         articleService.update(article);
         System.out.println(article);
+    }
+
+    @RequestMapping("es")
+    public List< Article > queryByes(String esvalue) {
+        List< Article > articles = articleService.queryByes(esvalue);
+        return articles;
     }
 }
